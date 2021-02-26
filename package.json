@@ -12,6 +12,7 @@
     "libp2p": "^0.30.9",
     "libp2p-mplex": "^0.10.2",
     "libp2p-noise": "^2.0.5",
-    "libp2p-tcp": "^0.15.3"
+    "libp2p-tcp": "^0.15.3",
+    "node-zopfli": "^2.1.4"
   }
 }
