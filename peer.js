@@ -26,14 +26,14 @@ const main = async () => {
     console.log('listening');
     peer.multiaddrs.forEach(addr => console.log(`${addr.toString()}/p2p/${peer.peerId.toB58String()}`));
 
-    peer.handle('/zoppy', async ({stream, addr, peerId}) => {
+    peer.handle('/zoppy', async ({stream, connection}) => {
         const input = await pipe(
             stream,
             concat
         );
         console.log(input.toString());
-        console.log(addr);
-        console.log(peerId.toB58String());
+        console.log(connection.remoteAddr);
+        console.log(connection.remotePeer.toB58String());
     });
 
     //peer.handle('/zopped')
