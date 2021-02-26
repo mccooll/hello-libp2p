@@ -28,19 +28,18 @@ const main = async () => {
     peer.multiaddrs.forEach(addr => console.log(`${addr.toString()}/p2p/${peer.peerId.toB58String()}`));
 
     peer.handle('/zoppy', async ({stream, connection}) => {
-        const compressed = await pipe(
+        console.log("receiving uncompressed data");
+        const input = await pipe(
             stream,
-            concat,
-            zopfli.createGzip
+            concat
         );
-        console.log(compressed.toString());
-        console.log(connection.remoteAddr);
-        console.log(connection.remotePeer.toB58String());
-        const dialBack = `${connection.remoteAddr.toString()}/p2p/${connection.remotePeer.toB58String()}`;
+        console.log(input.toString());
+        const inputBuff = new Buffer(input.toString());
+        const zopped = zopfli.gzipSync(inputBuff, {});
         console.log('send compressed data');
-        const { stream2 } = await peer.dialProtocol(multiaddr(dialBack), '/zopped');
+        const { stream: stream2 } = await connection.newStream('/zopped');
         await pipe(
-            [compressed.toString()],
+            [zopped],
             stream2
         );
     });
