@@ -11,7 +11,7 @@ const concat = require('it-concat');
 const main = async () => {
     const peer = await Libp2p.create({
         addresses: {
-            listen: ['/ip4/127.0.0.1/tcp/0']
+            listen: ['/ip4/0.0.0.0/tcp/0']
         },
         modules: {
             transport: [TCP],
